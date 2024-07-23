@@ -8,6 +8,7 @@ public class AudioController : MonoBehaviour
     [SerializeField] private AudioSource bg_adudio;
     [SerializeField] internal AudioSource audioPlayer_wl;
     [SerializeField] internal AudioSource audioPlayer_button;
+    [SerializeField] internal AudioSource audioSpin_button;
     [SerializeField] private AudioClip[] clips;
 
 
@@ -15,7 +16,8 @@ public class AudioController : MonoBehaviour
     {
         if (bg_adudio) bg_adudio.Play();
 
-        audioPlayer_button.clip = clips[clips.Length-1];
+        audioPlayer_button.clip = clips[clips.Length - 1];
+        audioPlayer_button.clip = clips[clips.Length - 2];
     }
 
     private void OnApplicationFocus(bool focus)
@@ -38,32 +40,40 @@ public class AudioController : MonoBehaviour
 
     internal void PlayWLAudio(string type)
     {
-        
+        audioPlayer_wl.loop = false;
         int index = 0;
         switch (type)
         {
             case "spin":
                 index = 0;
+                audioPlayer_wl.loop = true;
                 break;
             case "win":
-                index = UnityEngine.Random.Range(1, 2);
+                index = 1;
                 break;
             case "lose":
+                index = 2;
+                break;
+            case "spinStop":
                 index = 3;
+                break;
+            case "megaWin":
+                index = 4;
                 break;
         }
         StopWLAaudio();
         audioPlayer_wl.clip = clips[index];
-        audioPlayer_wl.loop = true;
         audioPlayer_wl.Play();
 
     }
-
-    internal void PlayButtonAudio() {
-        StopButtonAudio();
+    internal void PlayButtonAudio()
+    {
         audioPlayer_button.Play();
-        Invoke("StopButtonAudio", audioPlayer_button.clip.length);
+    }
 
+    internal void PlaySpinButtonAudio()
+    {
+        audioSpin_button.Play();
     }
 
     internal void StopWLAaudio()
@@ -91,15 +101,17 @@ public class AudioController : MonoBehaviour
                 bg_adudio.mute = toggle;
                 break;
             case "button":
-                audioPlayer_button.mute=toggle;
+                audioPlayer_button.mute = toggle;
+                audioSpin_button.mute = toggle;
                 break;
             case "wl":
-                audioPlayer_wl.mute=toggle;
+                audioPlayer_wl.mute = toggle;
                 break;
             case "all":
                 audioPlayer_wl.mute = toggle;
                 bg_adudio.mute = toggle;
                 audioPlayer_button.mute = toggle;
+                audioSpin_button.mute = toggle;
                 break;
         }
     }
