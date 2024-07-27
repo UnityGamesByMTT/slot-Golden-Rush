@@ -162,7 +162,6 @@ public class SocketIOManager : MonoBehaviour
     void OnConnected(ConnectResponse resp)
     {
         Debug.Log("Connected!");
-        InitRequest("AUTH");
     }
 
     private void OnDisconnected(string response)
