@@ -290,17 +290,20 @@ public class SlotBehaviour : MonoBehaviour
     void OnBetOne(bool IncDec)
     {
         if (audioController) audioController.PlayButtonAudio();
-
-        if (BetCounter < SocketManager.initialData.Bets.Count - 1)
+        if (IncDec)
         {
-            BetCounter++;
+            if (BetCounter < SocketManager.initialData.Bets.Count - 1)
+            {
+                BetCounter++;
+            }
         }
         else
         {
-            BetCounter = 0;
+            if (BetCounter > 0)
+            {
+                BetCounter--;
+            }
         }
-        Debug.Log("Index:" + BetCounter);
-
         if (BetPerLine_text) BetPerLine_text.text = SocketManager.initialData.Bets[BetCounter].ToString();
         if (TotalBet_text) TotalBet_text.text = (SocketManager.initialData.Bets[BetCounter] * Lines).ToString();
         currentTotalBet = SocketManager.initialData.Bets[BetCounter] * Lines;
