@@ -319,8 +319,7 @@ public class UIManager : MonoBehaviour
 
         DOVirtual.DelayedCall(6f, () =>
         {
-            if (WinPopup_Object) WinPopup_Object.SetActive(false);
-            if (MainPopup_Object) MainPopup_Object.SetActive(false);
+            ClosePopup(WinPopup_Object);
             slotManager.CheckPopups = false;
         });
     }
@@ -467,7 +466,10 @@ public class UIManager : MonoBehaviour
     {
         if (audioController) audioController.PlayButtonAudio();
         if (Popup) Popup.SetActive(false);
-        if (MainPopup_Object) MainPopup_Object.SetActive(false);
+        if (!DisconnectPopup_Object.activeSelf)
+        {
+            if (MainPopup_Object) MainPopup_Object.SetActive(false);
+        }
     }
 
     private void ToggleMusic()
