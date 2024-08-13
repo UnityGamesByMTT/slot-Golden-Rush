@@ -124,6 +124,9 @@ public class UIManager : MonoBehaviour
     private Image Loading_Image;
     [SerializeField]
     private TMP_Text LoadPercent_Text;
+    [SerializeField]
+    private Button QuitSplash_button;
+
 
     [Header("Disconnection Popup")]
     [SerializeField]
@@ -210,6 +213,9 @@ public class UIManager : MonoBehaviour
 
         if (Exit_Button) Exit_Button.onClick.RemoveAllListeners();
         if (Exit_Button) Exit_Button.onClick.AddListener(CloseMenu);
+
+        if (QuitSplash_button) QuitSplash_button.onClick.RemoveAllListeners();
+        if (QuitSplash_button) QuitSplash_button.onClick.AddListener(delegate { OpenPopup(QuitPopup_Object); });
 
         //if (About_Button) About_Button.onClick.RemoveAllListeners();
         //if (About_Button) About_Button.onClick.AddListener(delegate { OpenPopup(AboutPopup_Object); });
