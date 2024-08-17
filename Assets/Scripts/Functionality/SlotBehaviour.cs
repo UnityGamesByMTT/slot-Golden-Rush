@@ -87,6 +87,12 @@ public class SlotBehaviour : MonoBehaviour
     [Header("Audio Management")]
     [SerializeField] private AudioController audioController;
 
+    [Header("Free Spins Board")]
+    [SerializeField]
+    private GameObject FSBoard_Object;
+    [SerializeField]
+    private TMP_Text FSnum_text;
+
     [SerializeField]
     private UIManager uiManager;
 
@@ -188,7 +194,8 @@ public class SlotBehaviour : MonoBehaviour
     {
         if (!IsFreeSpin)
         {
-
+            if (FSnum_text) FSnum_text.text = spins.ToString();
+            if (FSBoard_Object) FSBoard_Object.SetActive(true);
             IsFreeSpin = true;
             ToggleButtonGrp(false);
 
@@ -211,6 +218,7 @@ public class SlotBehaviour : MonoBehaviour
             yield return tweenroutine;
             yield return new WaitForSeconds(2);
             i++;
+            if (FSnum_text) FSnum_text.text = (spinchances - i).ToString();
         }
         ToggleButtonGrp(true);
         IsFreeSpin = false;
@@ -571,9 +579,18 @@ public class SlotBehaviour : MonoBehaviour
             yield return new WaitForSeconds(2f);
             IsSpinning = false;
         }
-        if (SocketManager.resultData.freeSpins > 0 && !IsFreeSpin)
+        if (SocketManager.resultData.freeSpins.isNewAdded)
         {
-            uiManager.FreeSpinProcess((int)SocketManager.resultData.freeSpins);
+            if (IsFreeSpin)
+            {
+                IsFreeSpin = false;
+                if (FreeSpinRoutine != null)
+                {
+                    StopCoroutine(FreeSpinRoutine);
+                    FreeSpinRoutine = null;
+                }
+            }
+            uiManager.FreeSpinProcess((int)SocketManager.resultData.freeSpins.count);
             if (IsAutoSpin)
             {
                 StopAutoSpin();
