@@ -655,7 +655,7 @@ public class SlotBehaviour : MonoBehaviour
     {
         List<int> y_points = null;
         List<int> points_anim = null;
-        if (LineId.Count > 0)
+        if (LineId.Count > 0 || points_AnimString.Count > 0) 
         {
             if (audioController) audioController.PlayWLAudio("win");
 
