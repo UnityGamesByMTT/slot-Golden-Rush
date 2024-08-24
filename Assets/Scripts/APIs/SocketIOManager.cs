@@ -30,6 +30,8 @@ public class SocketIOManager : MonoBehaviour
     //WebSocket currentSocket = null;
     internal bool isResultdone = false;
 
+    internal bool SetInit = false;
+
     private SocketManager manager;
 
     [SerializeField]
@@ -52,6 +54,7 @@ public class SocketIOManager : MonoBehaviour
     {
         //Debug.unityLogger.logEnabled = false;
         isLoaded = false;
+        SetInit = false;
     }
 
     private void Start()
@@ -246,15 +249,23 @@ public class SocketIOManager : MonoBehaviour
         {
             case "InitData":
                 {
-                    Debug.Log(jsonObject);
                     initialData = myData.message.GameData;
                     initUIData = myData.message.UIData;
                     playerdata = myData.message.PlayerData;
                     bonusdata = myData.message.BonusData;
-                    List<string> LinesString = ConvertListListIntToListString(initialData.Lines);
-                    List<string> InitialReels = ConvertListOfListsToStrings(initialData.Reel);
-                    InitialReels = RemoveQuotes(InitialReels);
-                    PopulateSlotSocket(InitialReels, LinesString);
+                    if (!SetInit)
+                    {
+                        Debug.Log(jsonObject);
+                        List<string> LinesString = ConvertListListIntToListString(initialData.Lines);
+                        List<string> InitialReels = ConvertListOfListsToStrings(initialData.Reel);
+                        InitialReels = RemoveQuotes(InitialReels);
+                        PopulateSlotSocket(InitialReels, LinesString);
+                        SetInit = true;
+                    }
+                    else
+                    {
+                        RefreshUI();
+                    }
                     break;
                 }
             case "ResultData":
@@ -268,6 +279,11 @@ public class SocketIOManager : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    private void RefreshUI()
+    {
+        uiManager.InitialiseUIData(initUIData.AbtLogo.link, initUIData.AbtLogo.logoSprite, initUIData.ToULink, initUIData.PopLink, initUIData.paylines);
     }
 
     private void PopulateSlotSocket(List<string> slotPop, List<string> LineIds)
