@@ -241,10 +241,10 @@ public class UIManager : MonoBehaviour
         if (GameExit_Button) GameExit_Button.onClick.AddListener(delegate { OpenPopup(QuitPopup_Object); });
 
         if (NoQuit_Button) NoQuit_Button.onClick.RemoveAllListeners();
-        if (NoQuit_Button) NoQuit_Button.onClick.AddListener(delegate { ClosePopup(QuitPopup_Object); });
+        if (NoQuit_Button) NoQuit_Button.onClick.AddListener(delegate { if (!isExit) { ClosePopup(QuitPopup_Object); } });
 
         if (CrossQuit_Button) CrossQuit_Button.onClick.RemoveAllListeners();
-        if (CrossQuit_Button) CrossQuit_Button.onClick.AddListener(delegate { ClosePopup(QuitPopup_Object); });
+        if (CrossQuit_Button) CrossQuit_Button.onClick.AddListener(delegate { if (!isExit) { ClosePopup(QuitPopup_Object); } });
 
         if (LBExit_Button) LBExit_Button.onClick.RemoveAllListeners();
         if (LBExit_Button) LBExit_Button.onClick.AddListener(delegate { ClosePopup(LBPopup_Object); });
@@ -344,18 +344,18 @@ public class UIManager : MonoBehaviour
 
     internal void DisconnectionPopup(bool isReconnection)
     {
-        if (isReconnection)
-        {
-            OpenPopup(ReconnectPopup_Object);
-        }
-        else
-        {
-            ClosePopup(ReconnectPopup_Object);
+        //if (isReconnection)
+        //{
+        //    OpenPopup(ReconnectPopup_Object);
+        //}
+        //else
+        //{
+        //    ClosePopup(ReconnectPopup_Object);
             if (!isExit)
             {
                 OpenPopup(DisconnectPopup_Object);
             }
-        }
+        //}
     }
 
     internal void InitialiseUIData(string SupportUrl, string AbtImgUrl, string TermsUrl, string PrivacyUrl, Paylines symbolsText)
@@ -410,7 +410,6 @@ public class UIManager : MonoBehaviour
         isExit = true;
         audioController.PlayButtonAudio();
         slotManager.CallCloseSocket();
-        Application.ExternalCall("window.parent.postMessage", "onExit", "*");
     }
 
     private void OpenMenu()
