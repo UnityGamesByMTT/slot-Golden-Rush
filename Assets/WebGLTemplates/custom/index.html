@@ -38,9 +38,6 @@
 
 <body>
 
-    <iframe src="https://milkyway-el-dorado-loader-dev.vercel.app/" id="loading-screen" crossorigin="anonymous" frameborder="0">
-
-    </iframe>
   <canvas id="unity-canvas" tabindex="-1"></canvas>
   <script>
     const canvas=document.querySelector("#unity-canvas");
@@ -116,7 +113,11 @@
         console.log = function() {};
         console.warn = function() {};
         console.error = function() {};
-    </script> 
+    </script>
+    <script>
+      window.focus();
+    </script>
+
 </body>
 
 </html>

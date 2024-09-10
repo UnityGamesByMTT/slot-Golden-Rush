@@ -176,17 +176,28 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private SocketIOManager socketManager;
 
+    [SerializeField]
+    private Button m_AwakeGameButton;
+
     private bool isMusic = true;
     private bool isSound = true;
     private bool isExit = false;
 
     private int FreeSpins;
 
-    //private void Awake()
-    //{
-    //    if (Loading_Object) Loading_Object.SetActive(true);
-    //    StartCoroutine(LoadingRoutine());
-    //}
+    private void Awake()
+    {
+        //if (Loading_Object) Loading_Object.SetActive(true);
+        //StartCoroutine(LoadingRoutine());
+        SimulateClickByDefault();
+    }
+
+    private void SimulateClickByDefault()
+    {
+        Debug.Log("Awaken The Game...");
+        m_AwakeGameButton.onClick.AddListener(() => { Debug.Log("Called The Game..."); });
+        m_AwakeGameButton.onClick.Invoke();
+    }
 
     private IEnumerator LoadingRoutine()
     {
