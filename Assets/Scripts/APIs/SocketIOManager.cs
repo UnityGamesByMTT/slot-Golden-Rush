@@ -300,6 +300,7 @@ public class SocketIOManager : MonoBehaviour
         slotManager.SetInitialUI();
 
         isLoaded = true;
+        Debug.Log("sending external call");
         Application.ExternalCall("window.parent.postMessage", "OnEnter", "*");
     }
 
